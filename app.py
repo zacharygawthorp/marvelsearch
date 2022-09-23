@@ -10,7 +10,7 @@ from forms import UserAddForm, LoginForm, UpdateUserProfileForm
 from models import db, connect_db, User, Favorite
 
 
-import requests, datetime, hashlib, json, random
+import requests, datetime, hashlib, json, random, os
 
 """Timestamp is used for required API param."""
 timestamp = datetime.datetime.now().strftime('%Y-%m-%d%H:%M:%S')
@@ -27,7 +27,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql:///marvel_search_db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
-app.config['SECRET_KEY'] = "THISISASECRET"
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "24857577588698")
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 toolbar = DebugToolbarExtension(app)
