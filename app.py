@@ -36,7 +36,7 @@ connect_db(app)
 
 
 ############################################################################
-# user signup/login/logout
+# User signup/login/logout:
 
 @app.before_request
 def add_user_to_g():
@@ -227,7 +227,7 @@ def messages_destroy():
     return redirect('/signup')
 
 #################################################################################
-# Favorites list
+# Favorites routes:
 
 
 @app.route('/heros/<int:char_id>/favorite', methods=['POST'])
@@ -284,7 +284,7 @@ def fav_char_destroy(char_id):
     
     
 ##################################################################################
-# Homepage and error pages
+# Character routes:
 
 def api_hash():
   """Marvel API requires call to include md5 hash
@@ -484,6 +484,8 @@ def show_creator(creator_id):
 
   return render_template('creators/show.html', creator=creator_data, comics=comics_list, user=user)
 
+##################################################################################
+# Homepage and error pages:
 
 @app.route('/')
 def homepage():
