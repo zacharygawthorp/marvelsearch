@@ -4,6 +4,8 @@
 
 The goal of this site is to allow users to search for their favorite Marvel Comics Characters. The site will provide information such as, character name, a brief description of the character, and comic appearances. Users will also be able to keep track of their favorite characters by adding them to a favorites list.
 
+The site is deployed on Heroku and can be found [here](https://marvel-char-search.herokuapp.com/signup)
+
 ## Data Source / API
 
 The Marvel Developer Portal [API](https://developer.marvel.com/) was used to get all the character, comic, and creator information for this site.
