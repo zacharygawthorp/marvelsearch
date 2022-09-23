@@ -18,6 +18,9 @@ CURR_USER_KEY = "curr_user"
 
 fav_char = []
 
+PUBLIC_KEY = os.environ.get('PUBLIC_KEY')
+PRIVATE_KEY = os.environ.get('PRIVATE_KEY')
+
 """Base url for API call."""
 BASE_URL = 'https://gateway.marvel.com/v1/public'
 
