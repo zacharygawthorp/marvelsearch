@@ -9,7 +9,6 @@ from sqlalchemy.exc import IntegrityError
 from forms import UserAddForm, LoginForm, UpdateUserProfileForm
 from models import db, connect_db, User, Favorite
 
-
 import requests, datetime, hashlib, json, random, os
 
 """Timestamp is used for required API param."""
@@ -24,7 +23,7 @@ BASE_URL = 'https://gateway.marvel.com/v1/public'
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql:///marvel_search_db"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', "postgresql:///marvel_search_db" )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "24857577588698")
