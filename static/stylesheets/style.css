@@ -73,7 +73,7 @@ a > #comic-img:hover {
   margin-bottom: 1rem;
   position: relative;
   z-index: 9999;
-  height: 55px;
+  height: 90px;
 }
 
 .navbar a {
