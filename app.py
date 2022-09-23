@@ -16,8 +16,7 @@ timestamp = datetime.datetime.now().strftime('%Y-%m-%d%H:%M:%S')
 
 CURR_USER_KEY = "curr_user"
 
-fav_char = []
-
+"""Get API keys from Heroku."""
 PUBLIC_KEY = os.environ.get('PUBLIC_KEY')
 PRIVATE_KEY = os.environ.get('PRIVATE_KEY')
 
@@ -26,6 +25,7 @@ BASE_URL = 'https://gateway.marvel.com/v1/public'
 
 app = Flask(__name__)
 
+"""Resolve postgres / postgresql url path error with Heroku."""
 uri = os.environ.get('DATABASE_URL')
 if uri.startswith("postgres://"):
   uri = uri.replace("postgres://", "postgresql://", 1)
