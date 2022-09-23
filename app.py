@@ -8,7 +8,7 @@ from sqlalchemy.exc import IntegrityError
 
 from forms import UserAddForm, LoginForm, UpdateUserProfileForm
 from models import db, connect_db, User, Favorite
-from api_secret import PRIVATE_KEY, PUBLIC_KEY
+
 
 import requests, datetime, hashlib, json, random
 
