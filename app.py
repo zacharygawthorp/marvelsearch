@@ -9,7 +9,7 @@ from sqlalchemy.exc import IntegrityError
 from forms import UserAddForm, LoginForm, UpdateUserProfileForm
 from models import db, connect_db, User, Favorite
 
-import requests, datetime, hashlib, json, random, os
+import requests, datetime, hashlib, json, random, os, re
 
 """Timestamp is used for required API param."""
 timestamp = datetime.datetime.now().strftime('%Y-%m-%d%H:%M:%S')
@@ -27,7 +27,7 @@ uri = os.environ.get('DATABASE_URL')
 if uri.startswith("postgres://"):
   uri = uri.replace("postgres://", "postgresql://", 1)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = ('uri', "postgresql:///marvel_search_db" )
+app.config['SQLALCHEMY_DATABASE_URI'] = 'uri'
 uri = os.environ.get('DATABASE_URL')
 if uri.startswith("postgres://"):
   uri = uri.replace("postgres://", "postgresql://", 1)
