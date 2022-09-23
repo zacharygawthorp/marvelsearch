@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Marvel Comics Character Search</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bangers&family=Oswald:wght@300&family=Roboto:wght@300&display=swap"
+      rel="stylesheet">
+    <script src="https://unpkg.com/jquery"></script>
+    <script src="https://unpkg.com/popper"></script>
+    <script src="https://unpkg.com/bootstrap"></script>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link rel="stylesheet" href="/static/stylesheets/style.css">
+    <link rel="shortcut icon" href="/static/favicon.ico">
+  </head>
+
+  <body class="{% block body_class %}{% endblock %}" style="margin:0">
+    <nav class="navbar navbar-expand">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a href="/" class="navbar-brand">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/Marvel_Logo.svg" alt="logo">
+          </a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+          {% if not g.user %}
+          <li><a href="/signup">Sign up</a></li>
+          <li><a href="/login">Log in</a></li>
+          {% else %}
+          <li>
+            <a href="/users/{{ g.user.id }}">
+              <img src="{{ g.user.image_url }}" alt="{{ g.user.username }}">
+            </a>
+          </li>
+          <li><a href="/users/{{user.id}}/favorites">My Favorites</a></li>
+          <li><a href="/logout">Log out</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      {% for category, message in get_flashed_messages(with_categories=True) %}
+      <div id="alert" class="alert">{{ message }}</div>
+      {% endfor %}
+
+      {% block content %}
+      {% endblock %}
+
+    </div>
+
+    <!-- Library Js & our JS -->
+    <script src="https://unpkg.com/jquery"></script>
+    <script src="/static/js/app.js"></script>
+  </body>
+
+</html>

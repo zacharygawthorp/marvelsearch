@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<section id="comicSection">
+  <div class="card flex-md-row mb-4 box-shadow h-md-250">
+    <div id="comicImage">
+      <img class="card-img-right flex-auto d-md-block img-fluid" src="{{ comics.image }}">
+    </div>
+    <div class="card-body d-flex flex-column align-items-start">
+      <h3 class="mb-0 text-dark" id="comic-title">{{ comics.title }}</h3>
+      <br>
+      <p class="card-text mb-3">{{ comics.description }}</p>
+      <p class="card-text"><b>Issue Number: </b>{{ comics.issue_numb }}</p>
+      <p class="card-text"><b>Page Count: </b>{{ comics.page_count }}</p>
+      <p class="card-text"><b>Series: </b>{{ comics.series }}</p>
+      <span><b>Creators:</b></span>
+      {% for creator in creators %}
+      <small class="card-text" id="creatorDescription"><a
+          href="{{ url_for('show_creator', creator_id=creator.id) }}">{{ creator.name }}
+        </a></small>
+      {% endfor %}
+      <br>
+      <span><b>Characters:</b></span>
+      {% for char in characters %}
+      <small class="card-text"><a href="{{ url_for('show_char', name=char.name) }}">{{ char.name }}</a></small>
+      {% endfor %}
+      <p class="card-text"><small class="text-muted">Data provided by Marvel. © 2022 MARVEL</small></p>
+    </div>
+  </div>
+
+
+
+</section>
+
+
+{% endblock %}

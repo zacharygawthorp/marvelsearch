@@ -1,0 +1,28 @@
+{% extends 'users/detail.html' %}
+
+{% block user_details %}
+
+<h4>My Favorites:</h4>
+<div class="row row-cols-1 row-cols-md-3">
+  {% for fav in favs %}
+  <div class="col mb-4">
+    <div id="home-chars-card" class="card">
+      <a href="{{ url_for('show_char', name=fav.name) }}">
+        <img class="card-img-top" src="{{ fav.image }}">
+      </a>
+      <div class="card-body">
+        <h5 class="card-title" id="heroName">{{ fav.name }}</h3>
+          <p class="card-text" id="heroDescription">{{ fav.description }}</p>
+          <form method="POST" action="/heros/{{fav.id}}/delete" class="character-fav">
+            <input id="loading-button" type="submit" value="Remove from Favorites!" class="complementary-btn">
+          </form>
+      </div>
+      <div class="card-footer">
+        <small class="text-muted">Data provided by Marvel. © 2022 MARVEL</small>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

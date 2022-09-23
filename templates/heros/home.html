@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<body onload="spinnerFunction()">
+  <div id="loading">
+    <h4>Hang tight. Cap will be back with {{ char.name }}!</h4>
+  </div>
+  <div class="spin-container">
+    <div id="spinner">
+    </div>
+  </div>
+  <div id="content" style="display: none;">
+    <div class="header-container">
+      <h1 class="header-main-title">Marvel Character Search</h1>
+      <form class="connectionForm" action="/hero">
+        <div class="form-group">
+          <input name="name" required class="form-control"
+            placeholder="Enter a characters name (Thor, Black Panther, Thanos, etc...)" id="search">
+        </div>
+        <input type="submit" value="Search!" class="complementary-btn">
+      </form>
+    </div>
+    <section id="hero-section-home">
+      <div class="card flex-md-row mb-4 box-shadow h-md-250" id="{{ char.id }}">
+        <div id="hero-image-container">
+          <img id="hero-image" class="card-img-right flex-auto d-md-block img-fluid" src="{{ char.image }}">
+        </div>
+        <div class="card-body d-flex flex-column align-items-start">
+          <h5 class="mb-0 text-dark" id="heroName">{{ char.name }}</h5>
+          <p class="card-text mb-3" id="heroDescription">{{ char.description }}</p>
+          <form method="POST" action="/heros/{{char.id}}/favorite" class="character-fav">
+            <input type="submit" value="{{'Favorited!' if char.id in favorites else 'Add to Favorites'}}"
+              class="{{'favorited-btn' if char.id in favorites else 'complementary-btn'}}">
+          </form>
+          <p class="card-text"><small class="text-muted">Data provided by Marvel. © 2022 MARVEL</small></p>
+        </div>
+      </div>
+    </section>
+    <section id="comicSection">
+      <h4>Comics featuring {{ char.name }}:</h4>
+      <div class="card-columns">
+        {% for comic in comics %}
+        <div class="card">
+          <a href="{{ url_for('show_comic_data', comic_id=comic.id ) }}">
+            <img id="comic-img" class="card-img-top" src="{{ comic.image }}">
+          </a>
+          <div class="card-body">
+            <h5 class="card-title" id="heroName">{{ comic.title }}</h3>
+              <p class="card-text" id="heroDescription">{{ comic.description }}</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Data provided by Marvel. © 2022 MARVEL</small>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+</body>
+
+
+
+
+{% endblock %}

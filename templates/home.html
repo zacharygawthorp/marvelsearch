@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="header-container">
+  <h1 class="header-main-title">Marvel Character Search</h1>
+  <section id="heroSection">
+    <form class="connectionForm" action="/hero">
+      <div class="form-group">
+        <input name="name" required class="form-control"
+          placeholder="Enter a characters name (Thor, Black Panther, Thanos, etc...)" id="search">
+      </div>
+      <input id="loading-button" type="submit" value="Search!" class="complementary-btn">
+    </form>
+  </section>
+</div>
+<h4>Don't know where to start? Check out these heros!</h4>
+<div class="row row-cols-md-3">
+  {% for char in chars %}
+  <div class="col mb-4">
+    <div id="home-chars-card" class="card">
+      <a href="{{ url_for('show_char', name=char.name) }}">
+        <img class="card-img-top" src="{{ char.image }}">
+      </a>
+      <div class="card-body">
+        <h5 class="card-title" id="heroName">{{ char.name }}</h3>
+          <p class="card-text" id="heroDescription">{{ char.description }}</p>
+          <form method="POST" action="/heros/{{char.id}}/favorite" class="character-fav">
+            <input type="submit" value="{{'Favorited!' if char.id in favorites else 'Add to Favorites'}}"
+              class="{{'favorited-btn' if char.id in favorites else 'complementary-btn'}}">
+          </form>
+      </div>
+      <div class="card-footer">
+        <small class="text-muted">Data provided by Marvel. © 2022 MARVEL</small>
+      </div>
+    </div>
+
+  </div>
+  {% endfor %}
+</div>
+
+
+{% endblock %}
