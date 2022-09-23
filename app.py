@@ -27,7 +27,7 @@ uri = os.environ.get('DATABASE_URL')
 if uri.startswith("postgres://"):
   uri = uri.replace("postgres://", "postgresql://", 1)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('uri', "postgresql:///marvel_search_db" )
+app.config['SQLALCHEMY_DATABASE_URI'] = ('uri', "postgresql:///marvel_search_db" )
 uri = os.environ.get('DATABASE_URL')
 if uri.startswith("postgres://"):
   uri = uri.replace("postgres://", "postgresql://", 1)
