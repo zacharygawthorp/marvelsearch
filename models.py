@@ -64,6 +64,7 @@ class User(db.Model):
     
     bio = db.Column(
         db.Text,
+        default="The Strongest Avenger!"
     )
 
     password = db.Column(
@@ -93,6 +94,7 @@ class User(db.Model):
 
         db.session.add(user)
         return user
+  
 
     @classmethod
     def authenticate(cls, username, password):
