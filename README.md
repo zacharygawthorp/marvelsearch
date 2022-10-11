@@ -6,6 +6,8 @@ The goal of this site is to allow users to search for their favorite Marvel Comi
 
 The site is deployed on Heroku and can be found [here](https://marvel-char-search.herokuapp.com/signup)
 
+![Homepage Image](/static/images/user-homepage.png)
+
 ## Data Source / API
 
 The Marvel Developer Portal [API](https://developer.marvel.com/) was used to get all the character, comic, and creator information for this site.
