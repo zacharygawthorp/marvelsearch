@@ -4,13 +4,15 @@ from pydoc import cram
 from flask import Flask, request, render_template, redirect, session, g, flash
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
-from api_secret import PRIVATE_KEY, PUBLIC_KEY
-
 
 from forms import UserAddForm, LoginForm, UpdateUserProfileForm
 from models import db, connect_db, User, Favorite
 
 import requests, datetime, hashlib, json, random, os, re
+
+"""Keys needed to get requests from Marvel API."""
+PRIVATE_KEY = os.environ.get('PRIVATE_KEY')
+PUBLIC_KEY = os.environ.get('PUBLIC_KEY')
 
 """Timestamp is used for required API param."""
 timestamp = datetime.datetime.now().strftime('%Y-%m-%d%H:%M:%S')
