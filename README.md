@@ -1,4 +1,4 @@
-# Marvel Superhero Search
+# Marvel Character Search
 
 ## Description
 
