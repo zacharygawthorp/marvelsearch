@@ -1,9 +1,10 @@
-import imp
+
 from logging.config import IDENTIFIER
 from pydoc import cram
 from flask import Flask, request, render_template, redirect, session, g, flash
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
+from api_secret import PRIVATE_KEY, PUBLIC_KEY
 
 
 from forms import UserAddForm, LoginForm, UpdateUserProfileForm
@@ -16,24 +17,17 @@ timestamp = datetime.datetime.now().strftime('%Y-%m-%d%H:%M:%S')
 
 CURR_USER_KEY = "curr_user"
 
-"""Get API keys from Heroku."""
-PUBLIC_KEY = os.environ.get('PUBLIC_KEY')
-PRIVATE_KEY = os.environ.get('PRIVATE_KEY')
-
 """Base url for API call."""
 BASE_URL = 'https://gateway.marvel.com/v1/public'
 
 app = Flask(__name__)
 
 """Resolve postgres / postgresql url path error with Heroku."""
-uri = os.environ.get('DATABASE_URL')
-if uri.startswith("postgres://"):
-  uri = uri.replace("postgres://", "postgresql://", 1)
-
 app.config['SQLALCHEMY_DATABASE_URI'] = uri
 uri = os.environ.get('DATABASE_URL')
 if uri.startswith("postgres://"):
   uri = uri.replace("postgres://", "postgresql://", 1)
+  
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "24857577588698")
@@ -125,6 +119,18 @@ def login():
 
   return render_template('users/login.html', form=form)
 
+
+@app.route('/guest-login', methods=["GET"])
+def login_guest_user():
+  """Handle guest user login."""
+  
+  guest_user = User.query.filter(User.username == "guest").first()
+  
+  do_login(guest_user)
+    
+  return redirect("/")
+  
+
 @app.route('/logout')
 def logout():
   """Handle logout of user."""
@@ -132,6 +138,7 @@ def logout():
   do_logout()
 
   flash("See you for the next mission Avenger!")
+  
   return redirect("/login")
 
 
@@ -139,30 +146,35 @@ def logout():
 # General user routes:
 
 
-@app.route('/users/profile', methods=["GET", "POST"])
+@app.route('/users/update-profile', methods=["GET", "POST"])
 def profile():
     """Update profile for current user."""
-
-    if not g.user:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
-
+    
     user = g.user
+    
     form = UpdateUserProfileForm(obj=user)
-
-
+    
+    guest_user = User.query.filter(User.username == "guest").first()
+    
+    guest_id = guest_user.id
+    
+    """Prevent guests from editing the guest user profile."""
+    if guest_id == user.id:
+            flash("Sorry, guest users do not have access for this")
+            return redirect("/")  
+          
+    
     if form.validate_on_submit():
-        if User.authenticate(user.username, form.password.data):
-            user.username=form.username.data,
-            user.email=form.email.data,
-            user.header_image_url=form.header_image_url.data or User.header_image_url.default.arg,
-            user.image_url=form.image_url.data or User.image_url.default.arg,
-            user.bio=form.bio.data
-
-        
-            db.session.commit()
-            return redirect(f"/users/{user.id}")
-        flash("Wrong password, please try again.")
+      if User.authenticate(user.username, form.password.data):
+          user.username=form.username.data,
+          user.email=form.email.data,
+          user.header_image_url=form.header_image_url.data or User.header_image_url.default.arg,
+          user.image_url=form.image_url.data or User.image_url.default.arg,
+          user.bio=form.bio.data
+      
+          db.session.commit()
+          return redirect(f"/users/{user.id}")
+      flash("Wrong password, please try again.")
     
     return render_template("users/edit.html", form=form, user=user)
 
@@ -223,10 +235,17 @@ def show_likes(user_id):
 @app.route('/users/delete', methods=["POST"])
 def messages_destroy():
     """Delete a user."""
-
-    if not g.user:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
+    
+    user = g.user
+    
+    guest_user = User.query.filter(User.username == "guest").first()
+    
+    guest_id = guest_user.id
+    
+    """Prevent guests from deleting the guest user profile."""
+    if guest_id == user.id:
+            flash("Sorry, guest users do not have access for this")
+            return redirect("/")  
 
     do_logout()
     
@@ -271,7 +290,8 @@ def add_like(char_id):
         
     except IntegrityError:
         return redirect("/")
-
+      
+    flash(f"You added {name} to your favorites")
     return redirect("/")
 
 
@@ -288,7 +308,8 @@ def fav_char_destroy(char_id):
     
     db.session.delete(user_char)
     db.session.commit()
-  
+    
+    flash("Character removed from favorites")  
     return redirect('/')
     
     
