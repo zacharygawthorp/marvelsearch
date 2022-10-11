@@ -156,6 +156,15 @@ def profile():
     
     form = UpdateUserProfileForm(obj=user)
     
+    guest_user = User.query.filter(User.username == "guest").first()
+    
+    guest_id = guest_user.id
+    
+    """Prevent guests from editing the guest user profile."""
+    if guest_id == user.id:
+            flash("Sorry, guest users do not have access for this")
+            return redirect("/")  
+          
     if form.validate_on_submit():
       if User.authenticate(user.username, form.password.data):
           user.username=form.username.data,
