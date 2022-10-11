@@ -172,7 +172,7 @@ def profile():
           user.email=form.email.data,
           user.header_image_url=form.header_image_url.data or User.header_image_url.default.arg,
           user.image_url=form.image_url.data or User.image_url.default.arg,
-          user.bio=form.bio.data
+          user.bio=form.bio.data or User.default.arg,
       
           db.session.commit()
           return redirect(f"/users/{user.id}")
