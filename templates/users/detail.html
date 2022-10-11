@@ -11,7 +11,7 @@
         <ul class="user-stats nav nav-pills">
           <div id="profile-links" class="ml-auto">
             {% if g.user.id == user.id %}
-            <a href="/users/profile" class="btn">Edit Profile</a>
+            <a href="/users/update-profile" class="btn">Edit Profile</a>
             <form method="POST" action="/users/delete" class="form-inline">
               <button class="btn ml-2">Delete Profile</button>
             </form>

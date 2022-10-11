@@ -5,9 +5,9 @@
 {% block content %}
 
 <div class="row justify-content-md-center">
-  <div class="col-md-7 col-lg-5">
-    <h2 class="join-message">Welcome back.</h2>
-
+  <div id="login-container" class="col-md-7 col-lg-5">
+    <h2 class="login-message">Welcome back.</h2>
+    <a id="guest-login-btn" class="complementary-btn btn-info" href="/guest-login">Continue as Guest</a>
     <form method="POST" id="user_form">
       {{ form.hidden_tag() }}
 
@@ -18,7 +18,7 @@
       {{ field(placeholder=field.label.text, class="form-control") }}
       {% endfor %}
 
-      <button class="complementary-btn">Log in</button>
+      <button id="login-btn" class="complementary-btn">Log in</button>
     </form>
   </div>
 </div>
